@@ -1,7 +1,18 @@
+"use client";
+
+import { createTask, FormState } from "@/actions/task";
+import { useActionState } from "react";
+
 const NewTaskForm = () => {
+  const initialState: FormState = { error: "" };
+  const [state, formAction, isPending] = useActionState(
+    createTask,
+    initialState
+  );
+
   return (
     <div className="mt-10 mx-auto w-full max-w-sm">
-      <form action="">
+      <form>
         <div>
           <label htmlFor="title" className="block text-sm font-medium">
             タイトル
@@ -42,10 +53,16 @@ const NewTaskForm = () => {
         </div>
         <button
           type="submit"
-          className="mt-8 py-2 w-full rounded-md text-white bg-gray-800 hover:bg-gray-500 text-sm font-semibold shadow-sm"
+          className="mt-8 py-2 w-full rounded-md text-white bg-gray-800 hover:bg-gray-500 text-sm font-semibold shadow-sm disabled:bg-gray-300"
+          formAction={formAction}
+          disabled={isPending}
         >
           Create
         </button>
+        {isPending ? <p>isLoading...</p> : <></>}
+        {state.error && (
+          <p className="mt-2 text-red-500 text-sm">{state.error}</p>
+        )}
       </form>
     </div>
   );
