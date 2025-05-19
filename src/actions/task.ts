@@ -8,7 +8,7 @@ export interface FormState {
   error: string;
 }
 
-export const createTask = async (state: FormState, formData: FormData) => {
+export const createTask = async (_state: FormState, formData: FormData) => {
   const newTask: Task = {
     title: formData.get("title") as string,
     description: formData.get("description") as string,
@@ -30,7 +30,7 @@ export const createTask = async (state: FormState, formData: FormData) => {
 
 export const updateTask = async (
   id: string,
-  state: FormState,
+  _state: FormState,
   formData: FormData
 ) => {
   const updateTask: Task = {
@@ -52,7 +52,7 @@ export const updateTask = async (
   redirect("/");
 };
 
-export const deleteTask = async (id: string, state: FormState) => {
+export const deleteTask = async (id: string) => {
   try {
     await connectDb();
     await TaskModel.deleteOne({ _id: id });
