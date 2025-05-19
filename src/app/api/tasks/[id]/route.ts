@@ -4,14 +4,13 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (
   _request: NextRequest,
-  {
-    params,
-  }: {
-    params: {
+  props: {
+    params: Promise<{
       id: string;
-    };
+    }>;
   }
 ) => {
+  const params = await props.params;
   try {
     await connectDb();
     const task: TaskDocument | null = await TaskModel.findById(params.id);
